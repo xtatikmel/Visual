@@ -22,7 +22,7 @@ function varargout = monedaV1R1(varargin)
 
 % Edit the above text to modify the response to help monedaV1R1
 
-% Last Modified by GUIDE v2.5 28-Mar-2023 03:24:22
+% Last Modified by GUIDE v2.5 28-Mar-2023 20:31:07
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -240,16 +240,48 @@ if Indices(2) == 6 || Indices(2) == 7
     Calcular_Callback(handles.Calcular, [], handles)
 end
 
-% --- Executes on button press in Calcular.
+% --- Executes on button press in Calcular. 
 function Calcular_Callback(hObject, eventdata, handles)
-
+%%% APlicamos calculos 
 T = get(handles.uitable1, 'Data');
 handles.valorpromedio = mean(cell2mat(T(:,2)));
 handles.valormx = max(cell2mat(T(:,2)));
 handles.valormn = min(cell2mat(T(:,2)));
+handles.valorrango = range(cell2mat(T(:,2)));
+handles.valormediari = mean(cell2mat(T(:,2)));
+handles.valormediageo = geomean(cell2mat(T(:,2)));
+handles.valormediaarm = harmmean(cell2mat(T(:,2)));
+handles.valorlamedian = median(cell2mat(T(:,2)));
+handles.valormod = mode(cell2mat(T(:,2)));
+handles.valordesvestan = std(cell2mat(T(:,2)));
+handles.valordesvmed = mean(cell2mat(T(:,2)));
+handles.valoresperanz = mean(cell2mat(T(:,2)));
+handles.valorvarianz = var(cell2mat(T(:,2)));
+handles.valorcovarianz = cov(cell2mat(T(:,2)));
+handles.valorkurtos = kurtosis(cell2mat(T(:,2)));
+
+
+
+%%% Imprimimos resulatado
 set(handles.promedio, 'String', num2str(handles.valorpromedio));
 set(handles.mx, 'String', num2str(handles.valormx));
 set(handles.mn, 'String', num2str(handles.valormn));
+set(handles.rango, 'String', num2str(handles.valorrango));
+set(handles.mediari, 'String', num2str(handles.valormediari));
+set(handles.mediageo, 'String', num2str(handles.valormediageo));
+set(handles.mediaarm, 'String', num2str(handles.valormediaarm));
+set(handles.lamedian, 'String', num2str(handles.valorlamedian));
+set(handles.mod, 'String', num2str(handles.valormod));
+set(handles.desvestan, 'String', num2str(handles.valordesvestan));
+set(handles.desvmed, 'String', num2str(handles.valordesvmed));
+set(handles.esperanz, 'String', num2str(handles.valoresperanz));
+set(handles.varianz, 'String', num2str(handles.valorvarianz));
+set(handles.covarianz, 'String', num2str(handles.valorcovarianz));
+set(handles.covarianz, 'String', num2str(handles.valorcovarianz));
+set(handles.kurtos, 'String', num2str(handles.valorkurtos));
+
+
+
     guidata(hObject, handles);
 % --- Executes during object creation, after setting all properties.
 function promedio_CreateFcn(hObject, eventdata, handles)
@@ -348,7 +380,7 @@ promedio = mean(data);
 %%% Teniendo en cuenta que el cruce por cero se puede obtener interpolando 
 % linealmente los dos valores o eligiendo el más cercano al cero
 % Identificar los máximos relativos con coordenadas 
-% (, ()) () < () < (),  , ,      ó
+% (, ()) () < () < (),  , ,     ó
 % Identificar los mínimos relativos con coordenadas 
 % (, ())() > () > (),  , ,      ó
 YMax = [];YMin = [];
@@ -385,3 +417,87 @@ plot(fecha,y_normalized,'b',fecha,data,'g');
     grid on;
     grid on;
 set(handles.axes1,'Box','on');
+
+
+% --- Executes during object creation, after setting all properties.
+function rango_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to rango (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+
+% --- Executes during object creation, after setting all properties.
+function mediari_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to mediari (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+
+% --- Executes during object creation, after setting all properties.
+function mediageo_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to mediageo (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+
+% --- Executes during object creation, after setting all properties.
+function mediaarm_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to mediaarm (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+
+% --- Executes during object creation, after setting all properties.
+function lamedian_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to lamedian (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+
+% --- Executes during object creation, after setting all properties.
+function mod_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to mod (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+
+% --- Executes during object creation, after setting all properties.
+function desvestan_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to desvestan (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+
+% --- Executes during object creation, after setting all properties.
+function desvmed_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to desvmed (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+
+% --- Executes during object creation, after setting all properties.
+function esperanz_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to esperanz (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+
+% --- Executes during object creation, after setting all properties.
+function varianz_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to varianz (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+
+% --- Executes during object creation, after setting all properties.
+function covarianz_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to covarianz (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+
+% --- Executes during object creation, after setting all properties.
+function kurtos_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to kurtos (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
