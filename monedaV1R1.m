@@ -22,7 +22,7 @@ function varargout = monedaV1R1(varargin)
 
 % Edit the above text to modify the response to help monedaV1R1
 
-% Last Modified by GUIDE v2.5 31-Mar-2023 14:33:39
+% Last Modified by GUIDE v2.5 31-Mar-2023 14:43:56
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -365,7 +365,6 @@ hold off
     
     title('Variación del dolar desde 2012');
     legend('Dolar','Max','Min');
-    grid on;
 set(handles.axes1,'Box','on');
 
 
@@ -429,7 +428,6 @@ hold off
 datetick('x','yyyy');    
       title('Variación del dolar Vs. Variacion del Dolar Normalizado');
     legend('DolarNormalizado','Dolar');
-    grid on;
 set(handles.axes1,'Box','on');
 
 
@@ -533,7 +531,7 @@ function coefivar_CreateFcn(hObject, eventdata, handles)
 
 % --- Executes on button press in crucecero.
 function crucecero_Callback(hObject, eventdata, handles)
-R1=get(hObject,'Value'); % Obtener valor booleano del checkbox
+R1=get(hObject,'Value'); %Obtenemos el valor booleano de checkbox1
 g=get(handles.axes1,'GridColor');
 if R1==1 % SI el valor es 1 o encendido
     subplot(handles.axes1)
@@ -558,6 +556,16 @@ function grid_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of grid
+
+
+% --- Executes on button press in checkbox2.
+function checkbox2_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of checkbox2
+
 R2=get(hObject,'Value'); %Obtenemos el valor booleano de checkbox2
 if R2==1 %Si el valor booleano de checkbox2 es verdadero, encendido o 1...
     set(handles.axes1,'XGrid','on') %Encendemos la cuadrícula del eje X de axes1
