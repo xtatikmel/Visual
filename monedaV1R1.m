@@ -558,3 +558,12 @@ function grid_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of grid
+R2=get(hObject,'Value'); %Obtenemos el valor booleano de checkbox2
+if R2==1 %Si el valor booleano de checkbox2 es verdadero, encendido o 1...
+    set(handles.axes1,'XGrid','on') %Encendemos la cuadrícula del eje X de axes1
+    set(handles.axes1,'YGrid','on') %Encendemos la cuadrícula del eje Y de axes1
+else %Si no, o sea falso, apagado o 0...
+    set(handles.axes1,'XGrid','off') %Encendemos la cuadrícula del eje X de axes1
+    set(handles.axes1,'YGrid','off') %Encendemos la cuadrícula del eje Y de axes1
+end
+guidata(handles.axes1,handles); %Almacenamos todos los cambios ocurridos en axes1
