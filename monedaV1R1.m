@@ -22,7 +22,7 @@ function varargout = monedaV1R1(varargin)
 
 % Edit the above text to modify the response to help monedaV1R1
 
-% Last Modified by GUIDE v2.5 29-Mar-2023 07:47:05
+% Last Modified by GUIDE v2.5 31-Mar-2023 14:33:39
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -346,7 +346,7 @@ function grafica_Callback(hObject, eventdata, handles)
 % T = get(handles.uitable1, 'Data');
 % [data,header] =  xlsread("DB Datos.xlsx");
 
-global T M string full;
+global T M string full CrucesZeros;
 
     fecha = datetime(string(2:end,1),'InputFormat','dd/MM/yyyy');
 %%% Grafica de datos originales con sus valores maximos y minimos
@@ -420,9 +420,11 @@ end
 % Hint: place code in OpeningFcn to populate axes2
 
 %%% Grafica de datos originales con sus valores maximos y minimos
+subplot(handles.axes1)
 hold on
-plot(fecha,y_normalized,'b',fecha,data,'g');  
-plot(fecha(CrucesZero),y_normalized(CrucesZero),'cd');
+%plot(fecha,y_normalized,'b',fecha,data,'g');  
+plot(fecha,y_normalized,'b'); 
+%plot(fecha(CrucesZero),y_normalized(CrucesZero),'cd');
 hold off
 datetick('x','yyyy');    
       title('Variación del dolar Vs. Variacion del Dolar Normalizado');
@@ -527,3 +529,32 @@ function coefivar_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to coefivar (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
+
+
+% --- Executes on button press in crucecero.
+function crucecero_Callback(hObject, eventdata, handles)
+R1=get(hObject,'Value'); % Obtener valor booleano del checkbox
+g=get(handles.axes1,'GridColor');
+if R1==1 % SI el valor es 1 o encendido
+    subplot(handles.axes1)
+    plot(fecha(CrucesZero),y_normalized(CrucesZero),'cd');
+    set(handles.axes1,'GridColor',g);
+else
+    plot(0,0);
+set(handles.axes1,'Box','on');
+end
+guidata(handles.axes1,handles);
+% hObject    handle to crucecero (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of crucecero
+
+
+% --- Executes on button press in grid.
+function grid_Callback(hObject, eventdata, handles)
+% hObject    handle to grid (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of grid
