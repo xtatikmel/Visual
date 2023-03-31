@@ -22,7 +22,7 @@ function varargout = monedaV1R1(varargin)
 
 % Edit the above text to modify the response to help monedaV1R1
 
-% Last Modified by GUIDE v2.5 28-Mar-2023 20:31:07
+% Last Modified by GUIDE v2.5 29-Mar-2023 07:47:05
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -182,6 +182,7 @@ guidata(hObject, handles);
 function FormatoString_Callback(hObject, eventdata, handles)
 
 %Abrir mensaje de usuario para ingresar número de columna a editar
+global T;
 T = get(handles.uitable1, 'Data');
 texto = {['Ingresa el número de columna en' newline 'la cual cambiar el formato']};
 titulo = 'Cambiar formato';
@@ -207,7 +208,13 @@ function opnedb_Callback(hObject, eventdata, handles)
                                  '*.csv', 'Archivo CSV'}, ...
                                 'Escoge un archivo'); %Obtener nombre y dirección del archivo a importar
 
-[M, string, full] = xlsread([direccion, nombre]);  
+global M string full;
+ruta = fullfile(direccion,nombre)
+[M, string, full] = xlsread([direccion, nombre]); 
+
+% opts = detectImportOptions(ruta)
+% Dato = readtable(ruta,opts)
+% Dato.Properties
 NombresCol = full(1,:); %Separar el encabezado del arreglo y guardarlo como un arreglo nuevo.
 full(1,:) = []; %Borrar el encabezado de los datos del arreglo.
 NumeracionFilas = 1:size(full, 1); 
@@ -259,7 +266,9 @@ handles.valoresperanz = mean(cell2mat(T(:,2)));
 handles.valorvarianz = var(cell2mat(T(:,2)));
 handles.valorcovarianz = cov(cell2mat(T(:,2)));
 handles.valorkurtos = kurtosis(cell2mat(T(:,2)));
-
+handles.valoraper = handles.valormx/handles.valormn;
+handles.valorcoefivar = handles.valordesvestan/handles.valordesvmed;
+handles.valorpearson = (handles.valordesvestan/handles.valormediaarm)*100;
 
 
 %%% Imprimimos resulatado
@@ -277,10 +286,10 @@ set(handles.desvmed, 'String', num2str(handles.valordesvmed));
 set(handles.esperanz, 'String', num2str(handles.valoresperanz));
 set(handles.varianz, 'String', num2str(handles.valorvarianz));
 set(handles.covarianz, 'String', num2str(handles.valorcovarianz));
-set(handles.covarianz, 'String', num2str(handles.valorcovarianz));
 set(handles.kurtos, 'String', num2str(handles.valorkurtos));
-
-
+set(handles.aper, 'String', num2str(handles.valoraper));
+set(handles.coefivar, 'String', num2str(handles.valorcoefivar));
+set(handles.pearson, 'String', num2str(handles.valorpearson));
 
     guidata(hObject, handles);
 % --- Executes during object creation, after setting all properties.
@@ -333,32 +342,33 @@ function grafica_Callback(hObject, eventdata, handles)
 % hObject    handle to grafica (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-T = get(handles.uitable1, 'Data');
-   [data,header] =  xlsread("DB Datos.xlsx");
-    fecha = datetime(header(2:end,1),'InputFormat','dd/MM/yyyy');
+
+% T = get(handles.uitable1, 'Data');
+% [data,header] =  xlsread("DB Datos.xlsx");
+
+global T M string full;
+
+    fecha = datetime(string(2:end,1),'InputFormat','dd/MM/yyyy');
 %%% Grafica de datos originales con sus valores maximos y minimos
-plot(fecha,data,'g');
-%handles.valorx = values(:,1);
-%handles.valory = values(:,2);
-%plot(fecha,full,'g');
-%plot((cell2mat(T(:,1))),(cell2mat(T(:,2))),'g');
+subplot(handles.axes1)
+hold on
+plot(fecha,M,'g');
+Indexmx = find(M ==handles.valormx)
+plot(fecha(Indexmx),M(Indexmx),'cd');
+
+Indexmn = find(M ==handles.valormn)
+plot(fecha(Indexmn),M(Indexmn),'cd');
+hold off
     datetick('x','yyyy');
     xlabel('Tiempo (Dias)');
     ylabel('Tasa de Cambio del Dolar (Pesos)');
- %   yline(mn,'b','--');
-%    yline(mx,'r','--');
+    
     title('Variación del dolar desde 2012');
-   % legend('Dolar','Max','Min');
+    legend('Dolar','Max','Min');
     grid on;
 set(handles.axes1,'Box','on');
 
 
-
-% --- Executes during object creation, after setting all properties.
-function axes2_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to axes2 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
 
 
 % --- Executes on button press in normal.
@@ -410,11 +420,13 @@ end
 % Hint: place code in OpeningFcn to populate axes2
 
 %%% Grafica de datos originales con sus valores maximos y minimos
+hold on
 plot(fecha,y_normalized,'b',fecha,data,'g');  
-    datetick('x','yyyy');    
+plot(fecha(CrucesZero),y_normalized(CrucesZero),'cd');
+hold off
+datetick('x','yyyy');    
       title('Variación del dolar Vs. Variacion del Dolar Normalizado');
     legend('DolarNormalizado','Dolar');
-    grid on;
     grid on;
 set(handles.axes1,'Box','on');
 
@@ -499,5 +511,19 @@ function covarianz_CreateFcn(hObject, eventdata, handles)
 % --- Executes during object creation, after setting all properties.
 function kurtos_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to kurtos (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+
+% --- Executes during object creation, after setting all properties.
+function aper_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to aper (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+
+% --- Executes during object creation, after setting all properties.
+function coefivar_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to coefivar (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
