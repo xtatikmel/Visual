@@ -22,7 +22,7 @@ function varargout = monedaV1R1(varargin)
 
 % Edit the above text to modify the response to help monedaV1R1
 
-% Last Modified by GUIDE v2.5 31-Mar-2023 14:43:56
+% Last Modified by GUIDE v2.5 31-Mar-2023 14:58:39
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -220,6 +220,11 @@ full(1,:) = []; %Borrar el encabezado de los datos del arreglo.
 NumeracionFilas = 1:size(full, 1); 
 set(handles.uitable1, 'Data', full, 'ColumnName', NombresCol, ...
     'ColumnEditable', logical(1:size(full,2)), 'RowName', NumeracionFilas);
+
+handles.valorfile = ruta;
+
+set(handles.file, 'String', num2str(handles.valorfile));
+
 guidata(hObject, handles);
 
 % --- Executes when entered data in editable cell(s) in uitable1.
@@ -343,10 +348,8 @@ function grafica_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% T = get(handles.uitable1, 'Data');
-% [data,header] =  xlsread("DB Datos.xlsx");
 
-global T M string full CrucesZeros;
+global T M string full CrucesZero y_normalized;
 
     fecha = datetime(string(2:end,1),'InputFormat','dd/MM/yyyy');
 %%% Grafica de datos originales con sus valores maximos y minimos
@@ -379,12 +382,12 @@ function normal_Callback(hObject, eventdata, handles)
 %%% Utilizar la instrucción "find" o el "Teorema de Boltzman" 
 % () ∗ () < 0,  ,  
 %    ó para buscar los ceros del grupo de datos. 
-T = get(handles.uitable1, 'Data');
-   [data,header] =  xlsread("DB Datos.xlsx");
-    fecha = datetime(header(2:end,1),'InputFormat','dd/MM/yyyy');
-axisy = data;
-promedio = mean(data);
-    axisx = datetime(header(2:end,1),'InputFormat','dd/MM/yyyy');
+global T M string full CrucesZero y_normalized;
+   
+    fecha = datetime(string(2:end,1),'InputFormat','dd/MM/yyyy');
+axisy = M;
+promedio = mean(M);
+    axisx = datetime(string(2:end,1),'InputFormat','dd/MM/yyyy');
         y_normalized = axisy - promedio;
 %%% Teniendo en cuenta que el cruce por cero se puede obtener interpolando 
 % linealmente los dos valores o eligiendo el más cercano al cero
@@ -423,7 +426,7 @@ subplot(handles.axes1)
 hold on
 %plot(fecha,y_normalized,'b',fecha,data,'g');  
 plot(fecha,y_normalized,'b'); 
-%plot(fecha(CrucesZero),y_normalized(CrucesZero),'cd');
+% plot(fecha(CrucesZero),y_normalized(CrucesZero),'cd');
 hold off
 datetick('x','yyyy');    
       title('Variación del dolar Vs. Variacion del Dolar Normalizado');
@@ -531,14 +534,25 @@ function coefivar_CreateFcn(hObject, eventdata, handles)
 
 % --- Executes on button press in crucecero.
 function crucecero_Callback(hObject, eventdata, handles)
+global T M string full CrucesZero y_normalized;
+
+    fecha = datetime(string(2:end,1),'InputFormat','dd/MM/yyyy');
+axisy = M;
+promedio = mean(M);
+    axisx = datetime(string(2:end,1),'InputFormat','dd/MM/yyyy');
+        y_normalized = axisy - promedio;
 R1=get(hObject,'Value'); %Obtenemos el valor booleano de checkbox1
 g=get(handles.axes1,'GridColor');
 if R1==1 % SI el valor es 1 o encendido
-    subplot(handles.axes1)
-    plot(fecha(CrucesZero),y_normalized(CrucesZero),'cd');
+  %  subplot(handles.axes1)
+  hold on  
+  plot(fecha(CrucesZero),y_normalized(CrucesZero),'cd');
     set(handles.axes1,'GridColor',g);
+    hold off
 else
+    hold on
     plot(0,0);
+    hold off
 set(handles.axes1,'Box','on');
 end
 guidata(handles.axes1,handles);
@@ -575,3 +589,10 @@ else %Si no, o sea falso, apagado o 0...
     set(handles.axes1,'YGrid','off') %Encendemos la cuadrícula del eje Y de axes1
 end
 guidata(handles.axes1,handles); %Almacenamos todos los cambios ocurridos en axes1
+
+
+% --- Executes during object creation, after setting all properties.
+function file_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to file (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
