@@ -356,11 +356,11 @@ global T M string full CrucesZero y_normalized;
 subplot(handles.axes1)
 hold on
 plot(fecha,M,'g');
-Indexmx = find(M ==handles.valormx)
-plot(fecha(Indexmx),M(Indexmx),'cd');
-
-Indexmn = find(M ==handles.valormn)
-plot(fecha(Indexmn),M(Indexmn),'cd');
+% Indexmx = find(M ==handles.valormx)
+% plot(fecha(Indexmx),M(Indexmx),'cd');
+% 
+% Indexmn = find(M ==handles.valormn)
+% plot(fecha(Indexmn),M(Indexmn),'cd');
 hold off
     datetick('x','yyyy');
     xlabel('Tiempo (Dias)');
@@ -382,20 +382,21 @@ global T M string full CrucesZero y_normalized  ;
 %%% Grafica de datos originales con sus valores maximos y minimos
 R3=get(hObject,'Value'); %Obtenemos el valor booleano de checkbox1
 g=get(handles.axes1,'GridColor');
+Indemx = find(M ==handles.valormx)
+%plot(fecha(Indexmx),M(Indexmx),'cd');
 
+ Indemn = find(M ==handles.valormn)
+% plot(fecha(Indexmn),M(Indexmn),'cd');
 if R3==1
-%      hObject.mxmn = plot(fecha(Indemx),M(Indemx),'cd',fecha(Indemn),M(Indemn),'cd',fecha,M,'g');
-
-subplot(handles.axes1)
-hold on
-plot(fecha,M,'g');
-Indexmx = find(M ==handles.valormx)
-
-plot(fecha(Indexmx),M(Indexmx),'cd');
-
-Indexmn = find(M ==handles.valormn)
-plot(fecha(Indexmn),M(Indexmn),'cd');
-hold off
+      hObject.mxmn = plot(fecha(Indemx),M(Indemx),'cd',fecha(Indemn),M(Indemn),'cd',fecha,M,'g');
+% subplot(handles.axes1)
+%  hold on
+% plot(fecha,M,'g');
+% 
+% plot(fecha(Indemx),M(Indemx),'cd',fecha(Indemn),M(Indemn),'cd');
+% 
+% 
+%  hold off
     datetick('x','yyyy');
     xlabel('Tiempo (Dias)');
     ylabel('Tasa de Cambio del Dolar (Pesos)');
@@ -403,19 +404,20 @@ hold off
     title('Variación del dolar desde 2012');
     legend('Dolar','Max','Min');
 set(handles.axes1,'Box','on');
+ hold on  
 
 else
 % 
-subplot(handles.axes1)
+% subplot(handles.axes1)
+% hold off
+% plot(fecha,M,'g');
+% Indexmx = find(M ==handles.valormx)
+% plot(fecha(Indexmx),M(Indexmx),'cd');
+% 
+% Indexmn = find(M ==handles.valormn)
+% plot(fecha(Indexmn),M(Indexmn),'cd');
 hold off
-plot(fecha,M,'g');
-Indexmx = find(M ==handles.valormx)
-plot(fecha(Indexmx),M(Indexmx),'cd');
-
-Indexmn = find(M ==handles.valormn)
-plot(fecha(Indexmn),M(Indexmn),'cd');
-hold off
-%  hObject.mxmn = plot(fecha(Indemx),M(Indemx),'cd',fecha(Indemn),M(Indemn),'cd',fecha,M,'g');
+  hObject.mxmn = plot(fecha(Indemx),M(Indemx),'cd',fecha(Indemn),M(Indemn),'cd',fecha,M,'g');
 hold off
     datetick('x','yyyy');
     xlabel('Tiempo (Dias)');

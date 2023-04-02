@@ -1,35 +1,35 @@
-function varargout = monedaV1R1(varargin)
-% MONEDAV1R1 MATLAB code for monedaV1R1.fig
-%      MONEDAV1R1, by itself, creates a new MONEDAV1R1 or raises the existing
+function varargout = monedaV1R(varargin)
+% MONEDAV1R MATLAB code for monedaV1R.fig
+%      MONEDAV1R, by itself, creates a new MONEDAV1R or raises the existing
 %      singleton*.
 %
-%      H = MONEDAV1R1 returns the handle to a new MONEDAV1R1 or the handle to
+%      H = MONEDAV1R returns the handle to a new MONEDAV1R or the handle to
 %      the existing singleton*.
 %
-%      MONEDAV1R1('CALLBACK',hObject,eventData,handles,...) calls the local
-%      function named CALLBACK in MONEDAV1R1.M with the given input arguments.
+%      MONEDAV1R('CALLBACK',hObject,eventData,handles,...) calls the local
+%      function named CALLBACK in MONEDAV1R.M with the given input arguments.
 %
-%      MONEDAV1R1('Property','Value',...) creates a new MONEDAV1R1 or raises the
+%      MONEDAV1R('Property','Value',...) creates a new MONEDAV1R or raises the
 %      existing singleton*.  Starting from the left, property value pairs are
-%      applied to the GUI before monedaV1R1_OpeningFcn gets called.  An
+%      applied to the GUI before monedaV1R_OpeningFcn gets called.  An
 %      unrecognized property name or invalid value makes property application
-%      stop.  All inputs are passed to monedaV1R1_OpeningFcn via varargin.
+%      stop.  All inputs are passed to monedaV1R_OpeningFcn via varargin.
 %
 %      *See GUI Options on GUIDE's Tools Importar.  Choose "GUI allows only one
 %      instance to run (singleton)".
 %
 % See also: GUIDE, GUIDATA, GUIHANDLES
 
-% Edit the above text to modify the response to help monedaV1R1
+% Edit the above text to modify the response to help monedaV1R
 
-% Last Modified by GUIDE v2.5 31-Mar-2023 20:33:09
+% Last Modified by GUIDE v2.5 31-Mar-2023 22:00:56
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
 gui_State = struct('gui_Name',       mfilename, ...
                    'gui_Singleton',  gui_Singleton, ...
-                   'gui_OpeningFcn', @monedaV1R1_OpeningFcn, ...
-                   'gui_OutputFcn',  @monedaV1R1_OutputFcn, ...
+                   'gui_OpeningFcn', @monedaV1R_OpeningFcn, ...
+                   'gui_OutputFcn',  @monedaV1R_OutputFcn, ...
                    'gui_LayoutFcn',  [] , ...
                    'gui_Callback',   []);
 if nargin && ischar(varargin{1})
@@ -44,26 +44,26 @@ end
 % End initialization code - DO NOT EDIT
 
 
-% --- Executes just before monedaV1R1 is made visible.
-function monedaV1R1_OpeningFcn(hObject, eventdata, handles, varargin)
+% --- Executes just before monedaV1R is made visible.
+function monedaV1R_OpeningFcn(hObject, eventdata, handles, varargin)
 % This function has no output args, see OutputFcn.
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-% varargin   command line arguments to monedaV1R1 (see VARARGIN)
+% varargin   command line arguments to monedaV1R (see VARARGIN)
 
-% Choose default command line output for monedaV1R1
+% Choose default command line output for monedaV1R
 handles.output = hObject;
 
 % Update handles structure
 guidata(hObject, handles);
 
-% UIWAIT makes monedaV1R1 wait for user response (see UIRESUME)
+% UIWAIT makes monedaV1R wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
 
 
 % --- Outputs from this function are returned to the command line.
-function varargout = monedaV1R1_OutputFcn(hObject, eventdata, handles) 
+function varargout = monedaV1R_OutputFcn(hObject, eventdata, handles) 
 % varargout  cell array for returning output args (see VARARGOUT);
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -386,15 +386,13 @@ g=get(handles.axes1,'GridColor');
 if R3==1
 %      hObject.mxmn = plot(fecha(Indemx),M(Indemx),'cd',fecha(Indemn),M(Indemn),'cd',fecha,M,'g');
 
-subplot(handles.axes1)
+% subplot(handles.axes1)
 hold on
 plot(fecha,M,'g');
 Indexmx = find(M ==handles.valormx)
-
-plot(fecha(Indexmx),M(Indexmx),'cd');
-
+hObject.mxmn = plot(fecha(Indexmx),M(Indexmx),'cd');
 Indexmn = find(M ==handles.valormn)
-plot(fecha(Indexmn),M(Indexmn),'cd');
+hObject.mxmn1 = plot(fecha(Indexmn),M(Indexmn),'cd');
 hold off
     datetick('x','yyyy');
     xlabel('Tiempo (Dias)');
@@ -410,10 +408,10 @@ subplot(handles.axes1)
 hold off
 plot(fecha,M,'g');
 Indexmx = find(M ==handles.valormx)
-plot(fecha(Indexmx),M(Indexmx),'cd');
+hObject.mxmn = plot(fecha(Indexmx),M(Indexmx),'cd');
 
 Indexmn = find(M ==handles.valormn)
-plot(fecha(Indexmn),M(Indexmn),'cd');
+hObject.mxmn1 = plot(fecha(Indexmn),M(Indexmn),'cd');
 hold off
 %  hObject.mxmn = plot(fecha(Indemx),M(Indemx),'cd',fecha(Indemn),M(Indemn),'cd',fecha,M,'g');
 hold off
