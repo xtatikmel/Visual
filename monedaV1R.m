@@ -602,7 +602,7 @@ if R1==1 % SI el valor es 1 o encendido
 %     set(handles.axes1,'GridColor',g);
 else
     hold off
-  hObject.cruce = plot(fecha(CrucesZero),y_normalized(CrucesZero),fecha,y_normalized);
+  hObject.cruce = plot(fecha(CrucesZero),y_normalized(CrucesZero),fecha,y_normalized,'b');
 
 
 %     hold off
