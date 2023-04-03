@@ -22,7 +22,7 @@ function varargout = monedaV1R(varargin)
 
 % Edit the above text to modify the response to help monedaV1R
 
-% Last Modified by GUIDE v2.5 31-Mar-2023 22:00:56
+% Last Modified by GUIDE v2.5 02-Apr-2023 20:53:13
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -356,17 +356,15 @@ global T M string full CrucesZero y_normalized;
 subplot(handles.axes1)
 hold on
 plot(fecha,M,'g');
-Indexmx = find(M ==handles.valormx)
-plot(fecha(Indexmx),M(Indexmx),'cd');
-
-Indexmn = find(M ==handles.valormn)
-plot(fecha(Indexmn),M(Indexmn),'cd');
+ Indexmx = find(M ==handles.valormx)
+ plot(fecha(Indexmx),M(Indexmx),'cd');
+ Indexmn = find(M ==handles.valormn)
+ plot(fecha(Indexmn),M(Indexmn),'cd');
 hold off
     datetick('x','yyyy');
     xlabel('Tiempo (Dias)');
-    ylabel('Tasa de Cambio del Dolar (Pesos)');
-    
-    title('Variación del dolar desde 2012');
+    ylabel('Tasa de Cambio(Pesos)');
+    title('Variación');
     legend('Dolar','Max','Min');
 set(handles.axes1,'Box','on');
 
@@ -390,16 +388,16 @@ if R3==1
 hold on
 plot(fecha,M,'g');
 Indexmx = find(M ==handles.valormx)
-hObject.mxmn = plot(fecha(Indexmx),M(Indexmx),'cd');
+hObject.mxmn0 = plot(fecha(Indexmx),M(Indexmx),'cd');
 Indexmn = find(M ==handles.valormn)
 hObject.mxmn1 = plot(fecha(Indexmn),M(Indexmn),'cd');
-hold off
+% hold off
     datetick('x','yyyy');
     xlabel('Tiempo (Dias)');
-    ylabel('Tasa de Cambio del Dolar (Pesos)');
+    ylabel('Tasa de Cambio(Pesos)');
     
-    title('Variación del dolar desde 2012');
-    legend('Dolar','Max','Min');
+    title('Variación');
+    legend('Max','Min');
 set(handles.axes1,'Box','on');
 
 else
@@ -408,19 +406,19 @@ subplot(handles.axes1)
 hold off
 plot(fecha,M,'g');
 Indexmx = find(M ==handles.valormx)
-hObject.mxmn = plot(fecha(Indexmx),M(Indexmx),'cd');
+hObject.Indexmx0 = plot(fecha(Indexmx),M(Indexmx),'cd');
 
 Indexmn = find(M ==handles.valormn)
-hObject.mxmn1 = plot(fecha(Indexmn),M(Indexmn),'cd');
+hObject.Indexmx1 = plot(fecha(Indexmn),M(Indexmn),'cd');
 hold off
 %  hObject.mxmn = plot(fecha(Indemx),M(Indemx),'cd',fecha(Indemn),M(Indemn),'cd',fecha,M,'g');
 hold off
     datetick('x','yyyy');
     xlabel('Tiempo (Dias)');
-    ylabel('Tasa de Cambio del Dolar (Pesos)');
+    ylabel('Tasa de Cambio (Pesos)');
     
-    title('Variación del dolar desde 2012');
-    legend('Dolar','Max','Min');
+    title('Variación');
+%     legend('Dolar','Max','Min');
 set(handles.axes1,'Box','on');
 
 end    
@@ -662,3 +660,39 @@ function file_CreateFcn(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: get(hObject,'Value') returns toggle state of mxmn
+
+
+% --- Executes on button press in max.
+function max_Callback(hObject, eventdata, handles)
+% hObject    handle to max (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global T M string full 
+handles.valormx = max(cell2mat(T(:,2)));
+% Hint: get(hObject,'Value') returns toggle state of max
+R4=get(hObject,'Value'); %Obtenemos el valor booleano de checkbox2
+g=get(handles.axes1,'GridColor');
+if R4==1 %Si el valor booleano de checkbox2 es verdadero, encendido o 1...
+    set(handles.axes1,yline(handles.valormx,'r','--')) %Encendemos la cuadrícula del eje X de axes1
+else %Si no, o sea falso, apagado o 0...
+%     set(handles.axes1,'XGrid','off') %Encendemos la cuadrícula del eje X de axes1
+%     set(handles.axes1,'YGrid','off') %Encendemos la cuadrícula del eje Y de axes1
+end
+guidata(handles.axes1,handles); %Almacenamos todos los cambios ocurridos en axes1
+
+
+% --- Executes on button press in min.
+function min_Callback(hObject, eventdata, handles)
+% hObject    handle to min (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global T M string full 
+handles.valormn = min(cell2mat(T(:,2)));
+% Hint: get(hObject,'Value') returns toggle state of min
+R5=get(hObject,'Value'); %Obtenemos el valor booleano de checkbox2
+if R5==1 %Si el valor booleano de checkbox2 es verdadero, encendido o 1...
+    set(handles.axes1,yline(handles.valormn,'r','--')) %Encendemos la cuadrícula del eje X de axes1
+else %Si no, o sea falso, apagado o 0...
+%     set(handles.axes1,'YGrid','off') %Encendemos la cuadrícula del eje Y de axes1
+end
+guidata(handles.axes1,handles); %Almacenamos todos los cambios ocurridos en axes1
